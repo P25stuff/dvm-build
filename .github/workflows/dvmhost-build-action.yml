@@ -163,6 +163,12 @@ jobs:
           cd ${{ github.workspace }}
           zip -9 -r ${{ env.PACKAGENAME }}.zip ${{ env.PACKAGENAME }}
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: ${{ env.PACKAGENAME }}-${{ matrix.arch }}
+          path: ${{ env.PACKAGENAME }}.zip
+
   create-release:
     name: Create release
     needs: [setup, build]
