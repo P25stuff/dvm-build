@@ -160,6 +160,8 @@ jobs:
             cp ${{ github.workspace }}/build/tged ${{ github.workspace }}/${{ env.PACKAGENAME }}
             cp ${{ github.workspace }}/build/peered ${{ github.workspace }}/${{ env.PACKAGENAME }}
           fi
+          # Make all binaries executable
+          chmod +x ${{ github.workspace }}/${{ env.PACKAGENAME }}/*
           cd ${{ github.workspace }}
           zip -9 -r ${{ env.PACKAGENAME }}.zip ${{ env.PACKAGENAME }}
 
