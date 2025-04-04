@@ -153,10 +153,7 @@ jobs:
       - name: Create package
         run: |
           mkdir -p ${{ github.workspace }}/${{ env.PACKAGENAME }}
-          cp ${{ github.workspace }}/build/dvmhost ${{ github.workspace }}/build/dvmfne ${{ github.workspace }}/build/dvmcmd ${{ github.workspace }}/${{ env.PACKAGENAME }}
-          if [[ "${{ matrix.arch }}" == "arm64" || "${{ matrix.arch }}" == "amd64" ]]; then
-            cp ${{ github.workspace }}/build/dvmmon ${{ github.workspace }}/${{ env.PACKAGENAME }}
-          fi
+          cp -r ${{ github.workspace }}/build/* ${{ github.workspace }}/${{ env.PACKAGENAME }}/
           cd ${{ github.workspace }}
           zip -9 -r ${{ env.PACKAGENAME }}.zip ${{ env.PACKAGENAME }}
 
