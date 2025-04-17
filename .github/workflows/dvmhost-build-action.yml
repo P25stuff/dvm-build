@@ -22,7 +22,7 @@ jobs:
 
   setup:
     name: Setup
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     outputs:
       APPNAME: ${{ steps.get_appname.outputs.APPNAME }}
@@ -95,7 +95,7 @@ jobs:
     strategy:
       matrix:
         arch: ["amd64", "arm", "arm64", "armhf"]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     env:
       PACKAGENAME: ${{ needs.setup.outputs.APPNAME }}-${{ needs.setup.outputs.DATE }}-${{ matrix.arch }}
@@ -114,12 +114,12 @@ jobs:
         run: |
           sudo dpkg --add-architecture armhf
           sudo dpkg --add-architecture arm64
-          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu jammy main restricted universe multiverse" | sudo tee /etc/apt/sources.list
-          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports jammy main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble main restricted universe multiverse" | sudo tee /etc/apt/sources.list
+          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports noble main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports noble-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports noble-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
           sudo apt-get update
 
       - name: Install common dependencies
@@ -175,7 +175,7 @@ jobs:
     name: Create release
     needs: [setup, build]
     if: needs.setup.outputs.CHANGED == 'true'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
 
@@ -198,7 +198,7 @@ jobs:
     strategy:
       matrix:
         arch: ["amd64", "arm", "arm64", "armhf"]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     env:
       PACKAGENAME: ${{ needs.setup.outputs.APPNAME }}-${{ needs.setup.outputs.DATE }}-${{ matrix.arch }}
@@ -222,7 +222,7 @@ jobs:
     name: Save Commit Hash
     needs: [setup, build, create-release, upload]
     if: needs.setup.outputs.CHANGED == 'true'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Install Git
